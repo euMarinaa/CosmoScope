@@ -1,0 +1,44 @@
+- Tabela de tipos de corpos celestes
+CREATE TABLE TipoCorpoCeleste (
+    idTipo INT PRIMARY KEY,
+    nomeTipo VARCHAR(100),
+    descricao VARCHAR(100)
+);
+
+-- Tabela de corpos celestes
+CREATE TABLE CorpoCeleste (
+    idCorpo INT PRIMARY KEY,
+    nome VARCHAR(100),
+    idTipo INT,
+    diametro_km DECIMAL(20,2),
+    massa_kg DECIMAL(30,2),
+    distanciaSol_km DECIMAL(20,2),
+    FOREIGN KEY (idTipo) REFERENCES TipoCorpoCeleste(idTipo)
+);
+
+-- Tabela de sistemas planetários
+CREATE TABLE SistemaPlanetario (
+    idSistema INT PRIMARY KEY,
+    nome VARCHAR(100),
+    estrelaPrincipalId INT,
+    FOREIGN KEY (estrelaPrincipalId) REFERENCES CorpoCeleste(idCorpo)
+);
+
+-- Tabela de observatórios
+CREATE TABLE Observatorio (
+    idObservatorio INT PRIMARY KEY,
+    nome VARCHAR(100),
+    localizacao VARCHAR(100),
+    tipoEquipamento VARCHAR(100)
+);
+
+-- Tabela de observações
+CREATE TABLE Observacao (
+    idObservacao INT PRIMARY KEY,
+    idObservatorio INT,
+    idCorpoCeleste INT,
+    dataObservacao DATE,
+    comentarios VARCHAR(255),
+    FOREIGN KEY (idObservatorio) REFERENCES Observatorio(idObservatorio),
+    FOREIGN KEY (idCorpoCeleste) REFERENCES CorpoCeleste(idCorpo)
+);
